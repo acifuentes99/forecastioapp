@@ -11,7 +11,6 @@ const env = module.exports = {
 	},
 	"config": {
 		"serverport" : process.env.SERVER_PORT,
-		"websocketport" : process.env.WEBSOCKET_PORT,
 	},
 	"cities": [
 		{"name": "Santiago", "iso": "CL", "lat": -33.4569400, "long": -70.64827},
