@@ -1,15 +1,18 @@
+const dotenv = require('dotenv');
+dotenv.config();
+console.log("env readed");
 const env = module.exports = {
 	"forecast": {
-		"secretkey": "9048f1bb3e7f848c0acc3d39d60409ed",
+		"secretkey": process.env.FORECAST_APIKEY,
 		"url": "https://api.darksky.net/forecast/"
 	},
 	"redis": {
-		"host": "localhost",
-		"port": "6379"
-	}.
+		"host":  process.env.REDIS_HOST,
+		"port":  process.env.REDIS_PORT
+	},
 	"config": {
-		"serverport" : 8000,
-		"websocketport" : 8080,
+		"serverport" : process.env.SERVER_PORT,
+		"websocketport" : process.env.WEBSOCKET_PORT,
 	},
 	"cities": [
 		{"name": "Santiago", "iso": "CL", "lat": -33.4569400, "long": -70.64827},
