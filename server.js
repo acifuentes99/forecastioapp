@@ -1,5 +1,4 @@
 'use strict'
-/* Definir Variables */
 const basedir = __dirname
 const http = require('http')
 const fs = require('fs')
@@ -7,19 +6,24 @@ const request = require('request')
 const WebSocket = require('ws')
 const app = require(basedir+'/app.js')
 const env = require(basedir+'/env.js')
-/* Definir Servidor WebSockets*/
-const redis_url = env.redis.url.split(/(redis:\/\/)|[:@]/g)
+const port = process.env.PORT || env.config.serverport
 const redisClient = require("redis")
-//.createClient({ host: env.redis.host, port: env.redis.port })
-	.createClient(env.redis.url, {
-		no_ready_check: true
-	})
-const wss = new WebSocket.Server({ port: env.config.websocketport })
+.createClient(env.redis.url, { no_ready_check: true })
 
 redisClient
 .on('ready',() => console.log("Redis is ready"))
 .on('error',() => console.log("Error in Redis"))
 
+/**
+ * Iniciar Servidor, y Webhooks
+ */
+var server = http.createServer(app)
+setRedis(redisClient)
+server.listen(port)
+console.log(`server is listening on ${port}`)
+
+const wss = new WebSocket.Server({ server: server })
+console.log("Websocket created")
 
 /**
  * Envía a Redis las variables de latitud y longitud definidas en
@@ -117,28 +121,23 @@ function getData () {
 	return Promise.all(promises)
 }
 
-/* Websocket */
+/**
+ * Websocket funcionando cada 10 segundos (variable milsec), realizando
+ * llamadas a la API a través de funcionalidad implementada
+ */
 wss.on('connection', ws => {
 	let promises = getData()
 	.then((values) => {
-		console.log(values)
 		ws.send(JSON.stringify({"values": values}))
 	})
 	let milsec = 10000 //1000 milsec = 1 segundo
 	setInterval(() => {
 		let promises = getData()
 		.then((values) => {
-			console.log(values)
 			ws.send(JSON.stringify({"values": values}))
 		})
 	}, milsec)
 })
 
 
-/* Iniciar Servidor */
-let port = process.env.PORT || env.config.serverport
-app.listen(port, () => {
-	setRedis(redisClient)
-	console.log(`server is listening on ${port}`)
-})
 
