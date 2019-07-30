@@ -1,0 +1,64 @@
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<h1 style="text-align: center;">Proyecto API Forecast</h1>
+	<br>
+	<div id="cities">
+		<div class="row">
+			<div class="col">
+				<div v-for="city in cities">
+					<h2>{{ city.city }} ({{city.iso}})</h2>
+					<div>
+						Hora :  {{city.time}}
+					</div>
+					<div>
+						Temperatura :  {{city.temp}} °C
+					</div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<span id="websocket"></span>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script>
+		var vm = new Vue({
+			el: "#cities",
+			data : { 
+				cities : [
+					{ city: 'Santiago',
+						iso: 'CL'
+					},
+					{ city: 'Zurich',
+						iso: 'CH'
+					},
+					{ city: 'Auckland',
+						iso: 'NZ'
+					},
+					{ city: 'Sydney',
+						iso: 'AU'
+					},
+					{ city: 'Londres',
+						iso: 'UK'
+					},
+					{ city: 'Georgia',
+						iso: 'USA'
+					} 
+				]}
+		})
+	 </script>
+	 <script>
+		 var url = 'ws://localhost:8080'
+		 var ws = new WebSocket(url)
+		 ws.onopen = () => {
+			 console.log("websocket connected!")
+		 }
+		 ws.onmessage = (msg) => {
+			 data = JSON.parse(msg.data)
+			 console.log(data.values)
+			 vm.cities = data.values
+		 }
+	 </script>
+</body>
