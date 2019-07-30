@@ -136,8 +136,9 @@ wss.on('connection', ws => {
 
 
 /* Iniciar Servidor */
-app.listen(env.config.serverport, () => {
+let port = process.env.PORT || env.config.serverport
+app.listen(port, () => {
 	setRedis(redisClient)
-	console.log(`server is listening on ${env.config.serverport}`)
+	console.log(`server is listening on ${port}`)
 })
 
