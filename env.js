@@ -8,7 +8,8 @@ const env = module.exports = {
 	},
 	"redis": {
 		"host":  process.env.REDIS_HOST,
-		"port":  process.env.REDIS_PORT
+		"port":  process.env.REDIS_PORT,
+		"url":  process.env.REDIS_URL,
 	},
 	"config": {
 		"serverport" : process.env.SERVER_PORT,

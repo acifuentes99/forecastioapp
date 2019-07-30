@@ -8,8 +8,12 @@ const WebSocket = require('ws')
 const app = require(basedir+'/app.js')
 const env = require(basedir+'/env.js')
 /* Definir Servidor WebSockets*/
+const redis_url = env.redis.url.split(/(redis:\/\/)|[:@]/g)
 const redisClient = require("redis")
-.createClient({ host: env.redis.host, port: env.redis.port })
+//.createClient({ host: env.redis.host, port: env.redis.port })
+	.createClient(env.redis.url, {
+		no_ready_check: true
+	})
 const wss = new WebSocket.Server({ port: env.config.websocketport })
 
 redisClient

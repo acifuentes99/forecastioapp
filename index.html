@@ -50,7 +50,7 @@
 		})
 	 </script>
 	 <script>
-		 var url = 'ws://localhost:8080'
+		 var url = 'ws://'+window.location.hostname+':8080'
 		 var ws = new WebSocket(url)
 		 ws.onopen = () => {
 			 console.log("websocket connected!")
