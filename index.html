@@ -50,10 +50,9 @@
 		})
 	 </script>
 	 <script>
-		 var url = 'ws://'+window.location.hostname+':8080'
-		 var ws = new WebSocket(url)
+		 var host = location.origin.replace(/^http/, 'ws')
+		 var ws = new WebSocket(host)
 		 ws.onopen = () => {
-			 console.log("websocket connected!")
 		 }
 		 ws.onmessage = (msg) => {
 			 data = JSON.parse(msg.data)
