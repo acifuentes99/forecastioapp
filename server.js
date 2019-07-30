@@ -15,11 +15,24 @@ const redisClient = require("redis")
 	.createClient(env.redis.url, {
 		no_ready_check: true
 	})
-const wss = new WebSocket.Server({ port: env.config.websocketport })
 
 redisClient
 .on('ready',() => console.log("Redis is ready"))
 .on('error',() => console.log("Error in Redis"))
+
+/* Iniciar Servidor */
+var server = http.createServer(app)
+setRedis(redisClient)
+server.listen(port)
+console.log(`server is listening on ${port}`)
+	/*
+app.listen(port, () => {
+	setRedis(redisClient)
+	console.log(`server is listening on ${port}`)
+})
+*/
+const wss = new WebSocket.Server({ server: server })
+console.log("websocket created")
 
 
 /**
@@ -136,9 +149,4 @@ wss.on('connection', ws => {
 })
 
 
-/* Iniciar Servidor */
-app.listen(port, () => {
-	setRedis(redisClient)
-	console.log(`server is listening on ${port}`)
-})
 
