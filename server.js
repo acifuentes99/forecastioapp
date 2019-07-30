@@ -7,6 +7,7 @@ const request = require('request')
 const WebSocket = require('ws')
 const app = require(basedir+'/app.js')
 const env = require(basedir+'/env.js')
+const port = process.env.PORT || env.config.serverport
 /* Definir Servidor WebSockets*/
 const redis_url = env.redis.url.split(/(redis:\/\/)|[:@]/g)
 const redisClient = require("redis")
@@ -136,7 +137,6 @@ wss.on('connection', ws => {
 
 
 /* Iniciar Servidor */
-let port = process.env.PORT || env.config.serverport
 app.listen(port, () => {
 	setRedis(redisClient)
 	console.log(`server is listening on ${port}`)
