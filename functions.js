@@ -88,6 +88,7 @@ module.exports = function (redisClient, env) {
 				that.getCity(city.name)
 					.then((citycoord) => that.APICall(citycoord)
 						.then((data) => {
+							console.log("fetching data")
 							let temp = data.currently.temperature
 							let time = new Date(data.currently.time*1000).toLocaleTimeString("en-US", {timeZone: data.timezone})
 							let dict = {
