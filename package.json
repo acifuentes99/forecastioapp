@@ -1,13 +1,13 @@
 {
-  "name": "ripley",
+  "name": "forecastio-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Aplicación en Node.JS para servidor forecast.io",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Andrés Cifuentes",
   "license": "ISC",
   "dependencies": {
     "connect-redis": "^3.4.2",
