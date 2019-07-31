@@ -65,7 +65,7 @@ module.exports = function (redisClient, env) {
 			return await promise
 		}
 		catch (error){
-			let timestamp = new Date()
+			let timestamp = Date.now()
 			that.redisClient.hset("api.errors", timestamp, 'Error de fallo 10%')
 			return await that.APICall(city)
 		}

@@ -9,12 +9,11 @@ const functions = require(basedir+'/functions.js')
 const port = process.env.PORT || env.config.serverport
 const redisClient = require("redis")
 .createClient(env.redis.url, { no_ready_check: true })
+const func = new functions(redisClient, env)
 
 redisClient
 .on('ready',() => console.log("Redis is ready"))
 .on('error',() => console.log("Error in Redis"))
-
-const func = new functions(redisClient, env)
 
 /**
  * Iniciar Servidor y Webhook 
@@ -26,7 +25,6 @@ console.log(`server is listening on ${port}`)
 
 const wss = new WebSocket.Server({ server: server })
 console.log("Websocket created")
-
 
 /**
  * Websocket funcionando cada 10 segundos (variable milsec), realizando
