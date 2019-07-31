@@ -1,3 +1,4 @@
+"use strict"
 const dotenv = require('dotenv');
 dotenv.config();
 console.log("env readed");

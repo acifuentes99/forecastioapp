@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 const basedir = __dirname
 const http = require('http')
 const fs = require('fs')
@@ -17,7 +17,7 @@ redisClient
 const func = new functions(redisClient, env)
 
 /**
- * Iniciar Servidor, y Webhooks
+ * Iniciar Servidor y Webhook 
  */
 var server = http.createServer(app)
 func.setRedis(redisClient)
@@ -31,20 +31,30 @@ console.log("Websocket created")
 /**
  * Websocket funcionando cada 10 segundos (variable milsec), realizando
  * llamadas a la API a través de funcionalidad implementada
+ * Se utiliza la funcionalidad de "Ping-Pong", donde es necesario que el
+ * servidor reciba un "Pong", para poder realizar la consulta a la API
+ * (Esto, para no superar la capacidad de las llamadas de API)
  */
 wss.on('connection', ws => {
-	let promises = func.getData()
-	.then((values) => {
-		ws.send(JSON.stringify({"values": values}))
-	})
-	let milsec = 10000 //1000 milsec = 1 segundo
-	setInterval(() => {
+	ws.on('pong', (msg) => {
+		console.log("Asking API")
+		ws.isAlive = true
 		let promises = func.getData()
 		.then((values) => {
 			ws.send(JSON.stringify({"values": values}))
 		})
+	})
+	ws.ping()
+	ws.isAlive = false
+	let milsec = 10000 //10000 milsec = 10 segundos
+	let interval = setInterval(() => {
+		if (ws.isAlive === false){
+			clearInterval(interval)
+			ws.terminate()
+			console.log("socket killed")
+		}
+		ws.ping()
+		ws.isAlive = false
 	}, milsec)
 })
-
-
 
