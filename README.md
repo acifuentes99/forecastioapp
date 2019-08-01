@@ -1,13 +1,14 @@
 # Forecast IO APP
 
 App que utiliza la API de Forecast.io, para mostrar el tiempo y la temperatura de Países.
+Demo: https://forecastio-app.herokuapp.com/
 
 ## Instalación
 
-* Tener instalado los paquetes necesarios, para colocar en producción un servidor NodeJS
+* Tener instalado los paquetes necesarios, para colocar en producción un servidor NodeJS (escencialmente NodeJS, npm)
 * Clonar el repositorio
 * Instalar los requerimientos de la aplicación con el comando "npm install"
-* Editar el archivo ".env" (siguiendo el archivo .env.ejemplo), y colocar las credenciales de servidor de Redis y de Forecast.io
+* Copiar archivo ."env.ejemplo" en ".env". Editar este archivo .env con las credenciales de servidor de Redis y de Forecast.io
 * Ejecutar el servidor, escribiendo "npm start" en consola
 
 Posteriormente, acceder al sitio del proyecto para observar su funcionamiento.
